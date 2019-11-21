@@ -1,27 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import { IntlProvider } from "react-intl";
+import messages from "./assets/lang/messages";
+
 import classes from './App.module.scss';
 
-function App() {
-  console.log(classes);
-  return (
-    <div className={classes.App}>
-      <header className={classes['App-header']}>
-        <img src={logo} className={classes.AppLogo} alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className={classes.AppLink}
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {increment, decrement} from './store/actions';
+import Header from "./components/Header/Header";
+
+class App extends Component {
+
+    render () {
+
+        return (
+            <IntlProvider locale={this.props.lang} messages={messages[this.props.lang]}>
+                <div className={classes.super_container}>
+                    <Header />
+                </div>
+            </IntlProvider>
+        );
+    }
+
 }
 
-export default App;
+export default connect(
+    store => ({
+        lang: store.user.lang
+    })
+)(App);
